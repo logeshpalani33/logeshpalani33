@@ -1,7 +1,3 @@
-Profile Visitors
-
-![Visitor Count](https://profile-counter.glitch.me/logeshpalani30/count.svg)
-
 ### Hi there 👋
 
 - ✨ My name is **Logesh Palani**
