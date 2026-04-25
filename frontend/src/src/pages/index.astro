@@ -1,11 +1,510 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
----
+// ─── Data ────────────────────────────────────────────────────────────────────
 
-<Layout>
-	<Welcome />
+const nav = [
+  { label: "About",    href: "#about"    },
+  { label: "Skills",   href: "#skills"   },
+  { label: "Projects", href: "#projects" },
+  { label: "Certs",    href: "#certifications" },
+  { label: "Awards",   href: "#awards"   },
+  { label: "Speaking", href: "#speaking" },
+  { label: "Blog",     href: "#blog"     },
+  { label: "Contact",  href: "#contact"  },
+];
+
+const skills = [
+  { category: "Mobile",        color: "#00FFA3", icon: "📱", items: [".NET MAUI", "Xamarin.Forms", "Xamarin.Android", "Xamarin.iOS", "Swift"] },
+  { category: "Backend",       color: "#38BDF8", icon: "⚙️", items: ["C# / .NET 9", "ASP.NET Core", "Azure Functions", "REST APIs", "Entity Framework Core"] },
+  { category: "Cloud & DevOps",color: "#A78BFA", icon: "☁️", items: ["Microsoft Azure", "Azure DevOps", "Azure IoT Hub", "Azure Cognitive Services", "GitHub Actions"] },
+  { category: "Frontend",      color: "#FB923C", icon: "🎨", items: ["Angular", "Blazor", "HTML/CSS", "JavaScript", "Astro"] },
+  { category: "Database",      color: "#FBBF24", icon: "🗄️", items: ["SQL Server", "Cosmos DB", "SQLite", "Power BI"] },
+  { category: "IoT & Hardware", color: "#F87171", icon: "🔌", items: ["Raspberry Pi", "Arduino", "DragonBoard 410c", "Windows IoT Core"] },
+];
+
+const projects = [
+  {
+    title: "Attendance Management — Azure Cognitive Services + IoT",
+    desc: "Hackathon project combining Azure Cognitive Services (Face API) with Windows IoT Core to automate attendance tracking. Demonstrates real-world AI + hardware integration.",
+    tags: ["Azure", "Cognitive Services", "IoT Core", "C#"],
+    color: "#38BDF8",
+    icon: "🧠",
+    href: "https://github.com/logeshpalani33/AttendanceManagementusingAzureCognitiveServicesAndWindowsIoTCore",
+    highlight: "Hackathon",
+  },
+  {
+    title: "E-Commerce App — .NET 9 CRUD",
+    desc: "Full-stack e-commerce application built with .NET 9, showcasing modern ASP.NET Core patterns, Entity Framework Core, and clean architecture principles.",
+    tags: [".NET 9", "ASP.NET Core", "EF Core", "C#"],
+    color: "#00FFA3",
+    icon: "🛒",
+    href: "https://github.com/logeshpalani33/EcommerceApp-Crud-dotnet9",
+    highlight: "Latest",
+  },
+  {
+    title: "Azure IoT Hub — Device Cloud Messaging",
+    desc: "End-to-end demo for Device-to-Cloud and Cloud-to-Device messaging using Microsoft Azure IoT Hub. Used in community talks to demonstrate IoT architecture.",
+    tags: ["Azure IoT", "C#", "UWP", "Cloud"],
+    color: "#A78BFA",
+    icon: "📡",
+    href: "https://github.com/logeshpalani33/WindowsIoTCore-Samples",
+    highlight: "Featured",
+  },
+  {
+    title: "Xamarin.Forms Login & Signup — SQLite",
+    desc: "Production-ready authentication flow with local SQLite persistence in Xamarin.Forms. Community favourite with 8 stars and 12 forks.",
+    tags: ["Xamarin.Forms", "SQLite", "C#", "Android", "iOS"],
+    color: "#FB923C",
+    icon: "🔐",
+    href: "https://github.com/logeshpalani33/Xamarin.Forms-LoginAndSignupUsingSQLiteDB",
+    highlight: "⭐ 8 / 🍴 12",
+  },
+  {
+    title: "Azure Static Web App — Blazor PWA",
+    desc: "Blazor WebAssembly app published as a Progressive Web App to Azure Static Web Apps via GitHub Actions CI/CD pipeline.",
+    tags: ["Blazor", "Azure Static Apps", "PWA", "GitHub Actions"],
+    color: "#38BDF8",
+    icon: "🚀",
+    href: "https://github.com/logeshpalani33/AzureStaticWebAppDemo",
+    highlight: null,
+  },
+  {
+    title: ".NET MAUI Samples",
+    desc: "Collection of .NET MAUI samples covering navigation, controls, platform-specific code, and architecture patterns for cross-platform development.",
+    tags: [".NET MAUI", "C#", "iOS", "Android", "Windows"],
+    color: "#00FFA3",
+    icon: "📱",
+    href: "https://github.com/logeshpalani33/maui-samples",
+    highlight: null,
+  },
+];
+
+const talks = [
+  { title: "Season of AI — Bengaluru", event: "Microsoft Season of AI", year: "2024", icon: "🤖", color: "#38BDF8", href: "https://github.com/logeshpalani33/SeasonOfAI-Bengaluru" },
+  { title: "What's New in .NET 8", event: "MS Dev Geeks Meetup", year: "June 2023", icon: "⚡", color: "#00FFA3", href: "https://www.meetup.com/msdevgeeks/events/293563210/" },
+  { title: "LINQ with C# (Tamil 🇮🇳)", event: "XMonkeys360 Meetup", year: "March 2023", icon: "🔍", color: "#A78BFA", href: "https://www.youtube.com/watch?v=0Ouw_5srYZg" },
+  { title: "C# Coding Guidelines & Best Practices", event: "Community Talk", year: "May 2022", icon: "📐", color: "#FB923C", href: "https://sessionize.com/s/logeshpalani32/c-coding-guidelines-and-best-practices/55964" },
+  { title: "Azure Web PubSub — Real-time Web Apps", event: "Community Talk", year: "May 2021", icon: "🌐", color: "#FBBF24", href: "https://sessionize.com/s/logeshpalani32/build-real-time-web-apps-with-azure-web-pubsub/55963" },
+];
+
+const blogs = [
+  { title: "Publish Blazor WebAssembly PWA to Azure Static Apps via GitHub Actions", year: "2021", platform: "Blog", href: "https://logeshpalani.blogspot.com/2021/04/publish-blazor-webassembly-with-pwa-in.html", tag: "Azure" },
+  { title: "Get Started DragonBoard 410c with Windows IoT Core", year: "2020", platform: "XMonkeys360", href: "https://xmonkeys360.com/2020/05/16/get-started-dragonboard-410c-with-windows-iot-core/", tag: "IoT" },
+  { title: "Xamarin.Android — Gesture Detector", year: "2020", platform: "C# Corner", href: "https://www.c-sharpcorner.com/article/xamarin-android-gesture-detector", tag: "Mobile" },
+  { title: "HotReload with Wi-Fi Debugging in Xamarin Forms", year: "2020", platform: "C# Corner", href: "https://www.c-sharpcorner.com/article/hotreload-with-wi-fi-debugging-gives-more-power-to-xamarin-forms/", tag: "Mobile" },
+  { title: "Generate Barcode & QR Code in Xamarin Android", year: "2019", platform: "C# Corner", href: "https://www.c-sharpcorner.com/article/generate-barcode-and-qr-code-in-xamarin-android/", tag: "Mobile" },
+  { title: "ASP.NET Web App Deploy to Microsoft Azure", year: "2017", platform: "C# Corner", href: "https://www.c-sharpcorner.com/article/asp-net-web-application-to-deploy-microsoft-azure-service-using-microsoft-visua/", tag: "Azure" },
+];
+
+const community = [
+  { name: "XMonkeys360", role: "Co-Organiser", desc: "Developer community bridging the urban-rural tech education gap in India. Hosts meetups, workshops, and open-source initiatives.", icon: "🐒", color: "#00FFA3", href: "https://xmonkeys360.com" },
+  { name: "TechXconf", role: "Volunteer", desc: "Volunteered at TechXconf, a community-driven tech conference, helping organise sessions, speakers, and developer experiences.", icon: "🎪", color: "#38BDF8", href: "#" },
+  { name: "Microsoft MVP", role: "Most Valuable Professional", desc: "Recognised by Microsoft for exceptional technical community contributions in developer technologies.", icon: "🏆", color: "#A78BFA", href: "https://mvp.microsoft.com/en-US/MVP/profile/02b688a8-0d07-ec11-b6e6-000d3a57952c" },
+  { name: "msmvps GitHub Org", role: "Member", desc: "Member of the official Microsoft MVP GitHub organisation, contributing to community resources and samples.", icon: "🐙", color: "#FBBF24", href: "https://github.com/msmvps" },
+  { name: "C# Corner", role: "Author — 50+ Articles", desc: "Published over 50 technical articles covering Xamarin, Azure, .NET, and IoT since 2017.", icon: "✍️", color: "#FB923C", href: "https://www.c-sharpcorner.com/members/logesh-p3" },
+];
+const certs = [
+  {
+    title: "Azure Developer Associate",
+    issuer: "Microsoft",
+    issued: "Dec 2021",
+    expires: "Dec 2025",
+    icon: "⚙️",
+    color: "#38BDF8",
+    badge: "AZ-204",
+    skills: ["Azure Functions", "Azure DevOps", "Azure Active Directory"],
+    href: "https://www.credly.com/badges/d30f37b8-048c-4c14-8a2e-86e4e2133a2b",
+  },
+  {
+    title: "Azure Fundamentals",
+    issuer: "Microsoft",
+    issued: "Jun 2021",
+    expires: null,
+    icon: "☁️",
+    color: "#00FFA3",
+    badge: "AZ-900",
+    skills: ["Azure Active Directory", "Azure DevOps", "Cloud Concepts", "Azure Services"],
+    href: "https://www.credly.com/badges/eb67915f-b03f-4040-a5e4-7e84122c6144/linked_in_profile",
+  },
+  {
+    title: "Azure Data Scientist Associate",
+    issuer: "Microsoft",
+    issued: "Dec 2020",
+    expires: "Dec 2025",
+    icon: "🔬",
+    color: "#A78BFA",
+    badge: "DP-100",
+    skills: ["Machine Learning", "Azure ML", "Data Science"],
+    href: "https://www.credly.com/badges/6c8ae91e-72c5-43e5-80e6-79538e9a5375/linked_in_profile",
+  },
+  {
+    title: "Azure AI Engineer Associate",
+    issuer: "Microsoft",
+    issued: "Aug 2020",
+    expires: "Aug 2025",
+    icon: "🤖",
+    color: "#FBBF24",
+    badge: "AI-102",
+    skills: ["Azure Cognitive Services", "Azure Bot Service", "AI Solutions"],
+    href: "https://www.credly.com/badges/04034a42-c77a-41cc-a774-dacb36cf7179/linked_in_profile",
+  },
+];
+
+const awards = [
+  {
+    title: "Azure Functions Santa Challenge — Winner 🎄",
+    org: "Microsoft · codemillmatt",
+    year: "January 2020",
+    icon: "🎅",
+    color: "#00FFA3",
+    desc: "PR #10 was randomly selected from 40 forks as one of the winners. Built new features on the Xamarin.Forms santa-talk app: Azure Functions backend hosted on Azure, SQLite for message history, CollectionView redesign, and custom holiday theme. Awarded a $25 .NET Foundation store gift card.",
+    href: "https://github.com/codemillmatt/santa-talk/pull/10",
+    tags: ["Azure Functions", "Xamarin.Forms", "SQLite", "C#", "Challenge"],
+    badge: "🏅 PR Randomly Selected",
+  },
+];---
+
+<Layout title="Logesh Palani — Microsoft MVP · Full Stack Developer">
+  <div style="font-family:'Inter','Segoe UI',system-ui,sans-serif;background:#070C18;min-height:100vh;color:#E2E8F0;font-size:15px">
+
+    <!-- ── Nav ── -->
+    <nav style="position:sticky;top:0;z-index:100;background:rgba(7,12,24,0.92);backdrop-filter:blur(12px);border-bottom:1px solid #1E2A3B;padding:0 24px">
+      <div style="max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px">
+        <a href="#" style="text-decoration:none;display:flex;align-items:center;gap:10px">
+          <span style="background:#00FFA3;color:#000;padding:3px 8px;font-size:10px;font-weight:800;letter-spacing:2px">MVP</span>
+          <span style="color:#E2E8F0;font-weight:700;font-size:15px;letter-spacing:0.3px">Logesh Palani</span>
+        </a>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          {nav.map(n => (
+            <a href={n.href} style="color:#94A3B8;text-decoration:none;padding:6px 12px;font-size:13px;border-radius:4px;transition:color 0.2s"
+              onmouseover="this.style.color='#00FFA3'" onmouseout="this.style.color='#94A3B8'">{n.label}</a>
+          ))}
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── Hero ── -->
+    <section id="about" style="padding:80px 24px 60px;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(ellipse at 15% 50%,rgba(0,255,163,0.07) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(56,189,248,0.06) 0%,transparent 55%),radial-gradient(ellipse at 50% 100%,rgba(167,139,250,0.04) 0%,transparent 50%);pointer-events:none"></div>
+      <div style="max-width:1000px;margin:0 auto;position:relative;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+            <span style="background:#00FFA320;border:1px solid #00FFA340;color:#00FFA3;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:2px">MICROSOFT MVP</span>
+            <span style="background:#38BDF820;border:1px solid #38BDF840;color:#38BDF8;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:2px">FULL STACK DEVELOPER</span>
+            <span style="background:#FBBF2420;border:1px solid #FBBF2440;color:#FBBF24;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:2px">SIEMENS · BENGALURU</span>
+          </div>
+          <h1 style="font-size:clamp(32px,6vw,58px);font-weight:800;margin:0 0 16px;line-height:1.1;letter-spacing:-1px;background:linear-gradient(100deg,#00FFA3 0%,#38BDF8 50%,#A78BFA 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent">
+            Logesh Palani
+          </h1>
+          <p style="color:#94A3B8;font-size:clamp(15px,2vw,18px);line-height:1.8;max-width:620px;margin:0 0 32px">
+            Building cross-platform experiences with <span style="color:#00FFA3;font-weight:600">.NET & Azure</span> — from mobile to cloud to IoT. Microsoft MVP, XMonkeys360 founder, and 9-year open-source contributor.
+          </p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a href="https://github.com/logeshpalani33" target="_blank" rel="noreferrer"
+              style="display:flex;align-items:center;gap:8px;background:#00FFA3;color:#000;padding:11px 22px;font-weight:700;font-size:14px;text-decoration:none;border-radius:2px">
+              🐙 GitHub
+            </a>
+            <a href="https://mvp.microsoft.com/en-US/MVP/profile/02b688a8-0d07-ec11-b6e6-000d3a57952c" target="_blank" rel="noreferrer"
+              style="display:flex;align-items:center;gap:8px;background:transparent;border:1px solid #38BDF8;color:#38BDF8;padding:11px 22px;font-weight:700;font-size:14px;text-decoration:none;border-radius:2px">
+              🏆 MVP Profile
+            </a>
+            <a href="https://www.linkedin.com/in/logeshpalani31/" target="_blank" rel="noreferrer"
+              style="display:flex;align-items:center;gap:8px;background:transparent;border:1px solid #1E2A3B;color:#94A3B8;padding:11px 22px;font-weight:700;font-size:14px;text-decoration:none;border-radius:2px">
+              💼 LinkedIn
+            </a>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:160px">
+          {[
+            { num: "9+",  label: "Years coding",         color: "#00FFA3" },
+            { num: "56+", label: "Published articles",   color: "#38BDF8" },
+            { num: "28",  label: "Public repos",         color: "#A78BFA" },
+            { num: "5",   label: "Community talks",      color: "#FBBF24" },
+          ].map(s => (
+            <div style={`background:#0D1321;border:1px solid #1E2A3B;border-left:3px solid ${s.color};padding:14px 16px`}>
+              <div style={`color:${s.color};font-size:26px;font-weight:800;line-height:1`}>{s.num}</div>
+              <div style="color:#5B6B7D;font-size:12px;margin-top:4px">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Skills ── -->
+    <section id="skills" style="padding:60px 24px;background:#0A1020">
+      <div style="max-width:1000px;margin:0 auto">
+        <div style="margin-bottom:36px">
+          <div style="color:#00FFA3;font-size:11px;font-weight:800;letter-spacing:3px;margin-bottom:8px">EXPERTISE</div>
+          <h2 style="font-size:28px;font-weight:800;margin:0;color:#E2E8F0">Technical Skills</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+          {skills.map(s => (
+            <div style={`background:#111827;border:1px solid #1E2A3B;border-top:3px solid ${s.color};padding:20px`}>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+                <span style="font-size:20px">{s.icon}</span>
+                <span style={`color:${s.color};font-size:12px;font-weight:700;letter-spacing:1px`}>{s.category.toUpperCase()}</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                {s.items.map(item => (
+                  <span style={`background:${s.color}12;border:1px solid ${s.color}30;color:#94A3B8;font-size:12px;padding:4px 10px;border-radius:2px`}>{item}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Projects ── -->
+    <section id="projects" style="padding:60px 24px">
+      <div style="max-width:1000px;margin:0 auto">
+        <div style="margin-bottom:36px">
+          <div style="color:#38BDF8;font-size:11px;font-weight:800;letter-spacing:3px;margin-bottom:8px">OPEN SOURCE</div>
+          <h2 style="font-size:28px;font-weight:800;margin:0;color:#E2E8F0">Featured Projects</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
+          {projects.map(p => (
+            <a href={p.href} target="_blank" rel="noreferrer" style="text-decoration:none;display:flex;flex-direction:column"
+              onmouseover="this.querySelector('.proj-card').style.borderColor=this.querySelector('.proj-card').dataset.color"
+              onmouseout="this.querySelector('.proj-card').style.borderColor='#1E2A3B'">
+              <div class="proj-card" data-color={p.color}
+                style={`background:#111827;border:1px solid #1E2A3B;border-top:3px solid ${p.color};padding:20px;flex:1;transition:border-color 0.2s;cursor:pointer`}>
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:10px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="font-size:22px">{p.icon}</span>
+                    <span style={`color:${p.color};font-size:13px;font-weight:700`}>{p.title}</span>
+                  </div>
+                  {p.highlight && (
+                    <span style={`background:${p.color}18;color:${p.color};font-size:10px;font-weight:700;padding:3px 8px;border:1px solid ${p.color}40;white-space:nowrap`}>{p.highlight}</span>
+                  )}
+                </div>
+                <p style="color:#94A3B8;font-size:13px;line-height:1.7;margin:0 0 14px">{p.desc}</p>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  {p.tags.map(tag => (
+                    <span style="background:#0D1321;border:1px solid #1E2A3B;color:#5B6B7D;font-size:11px;padding:3px 8px">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div style="margin-top:20px;text-align:center">
+          <a href="https://github.com/logeshpalani33?tab=repositories" target="_blank" rel="noreferrer"
+            style="display:inline-flex;align-items:center;gap:8px;border:1px solid #1E2A3B;color:#94A3B8;padding:10px 24px;font-size:13px;text-decoration:none;border-radius:2px"
+            onmouseover="this.style.borderColor='#00FFA3';this.style.color='#00FFA3'"
+            onmouseout="this.style.borderColor='#1E2A3B';this.style.color='#94A3B8'">
+            View all 28 repositories on GitHub →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Community ── -->
+    <section style="padding:60px 24px;background:#0A1020">
+      <div style="max-width:1000px;margin:0 auto">
+        <div style="margin-bottom:36px">
+          <div style="color:#A78BFA;font-size:11px;font-weight:800;letter-spacing:3px;margin-bottom:8px">COMMUNITY</div>
+          <h2 style="font-size:28px;font-weight:800;margin:0;color:#E2E8F0">Community & Recognition</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+          {community.map(c => (
+            <a href={c.href} target="_blank" rel="noreferrer" style="text-decoration:none">
+              <div style={`background:#111827;border:1px solid #1E2A3B;border-left:4px solid ${c.color};padding:20px;height:100%;box-sizing:border-box`}
+                onmouseover="this.style.background='#141E2F'" onmouseout="this.style.background='#111827'">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                  <span style="font-size:24px">{c.icon}</span>
+                  <div>
+                    <div style={`color:${c.color};font-size:14px;font-weight:700`}>{c.name}</div>
+                    <div style="color:#5B6B7D;font-size:11px;margin-top:1px">{c.role}</div>
+                  </div>
+                </div>
+                <p style="color:#94A3B8;font-size:13px;line-height:1.7;margin:0">{c.desc}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Certifications ── -->
+    <section id="certifications" style="padding:60px 24px;background:#0A1020">
+      <div style="max-width:1000px;margin:0 auto">
+        <div style="margin-bottom:36px">
+          <div style="color:#38BDF8;font-size:11px;font-weight:800;letter-spacing:3px;margin-bottom:8px">MICROSOFT CERTIFIED</div>
+          <h2 style="font-size:28px;font-weight:800;margin:0;color:#E2E8F0">Certifications <span style="color:#5B6B7D;font-size:16px;font-weight:400">— 4 Microsoft Azure</span></h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
+          {certs.map(c => (
+            <a href={c.href} target="_blank" rel="noreferrer" style="text-decoration:none">
+              <div style={`background:#111827;border:1px solid #1E2A3B;border-top:3px solid ${c.color};padding:20px;height:100%;box-sizing:border-box`}
+                onmouseover="this.style.background='#141E2F'" onmouseout="this.style.background='#111827'">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:8px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="font-size:24px">{c.icon}</span>
+                    <div>
+                      <div style={`color:${c.color};font-size:13px;font-weight:700;line-height:1.3`}>Microsoft Certified</div>
+                      <div style="color:#E2E8F0;font-size:14px;font-weight:800;margin-top:2px">{c.title}</div>
+                    </div>
+                  </div>
+                  <span style={`background:${c.color}18;border:1px solid ${c.color}40;color:${c.color};font-size:10px;font-weight:800;padding:3px 8px;white-space:nowrap`}>{c.badge}</span>
+                </div>
+                <div style="display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap">
+                  <div style="color:#5B6B7D;font-size:11px">✅ Issued {c.issued}</div>
+                  {c.expires && <div style="color:#5B6B7D;font-size:11px">⏳ Expires {c.expires}</div>}
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:5px">
+                  {c.skills.map(s => (
+                    <span style={`background:${c.color}10;border:1px solid ${c.color}25;color:#94A3B8;font-size:11px;padding:3px 8px`}>{s}</span>
+                  ))}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Awards ── -->
+    <section id="awards" style="padding:60px 24px">
+      <div style="max-width:1000px;margin:0 auto">
+        <div style="margin-bottom:36px">
+          <div style="color:#00FFA3;font-size:11px;font-weight:800;letter-spacing:3px;margin-bottom:8px">WINS & RECOGNITION</div>
+          <h2 style="font-size:28px;font-weight:800;margin:0;color:#E2E8F0">Awards & Challenges</h2>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          {awards.map(a => (
+            <a href={a.href} target="_blank" rel="noreferrer" style="text-decoration:none">
+              <div style={`background:#111827;border:1px solid #1E2A3B;border-left:5px solid ${a.color};padding:24px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:start`}
+                onmouseover="this.style.background='#141E2F'" onmouseout="this.style.background='#111827'">
+                <div style="font-size:36px;line-height:1">{a.icon}</div>
+                <div>
+                  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px">
+                    <span style={`color:${a.color};font-size:16px;font-weight:800`}>{a.title}</span>
+                    <span style={`background:${a.color}18;border:1px solid ${a.color}40;color:${a.color};font-size:10px;font-weight:700;padding:3px 10px`}>{a.badge}</span>
+                  </div>
+                  <div style="color:#5B6B7D;font-size:12px;margin-bottom:10px">{a.org} · {a.year}</div>
+                  <p style="color:#94A3B8;font-size:14px;line-height:1.7;margin:0 0 14px">{a.desc}</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px">
+                    {a.tags.map(tag => (
+                      <span style={`background:${a.color}10;border:1px solid ${a.color}30;color:#94A3B8;font-size:11px;padding:4px 10px`}>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+                <span style={`color:${a.color};font-size:18px`}>↗</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Speaking ── -->
+    <section id="speaking" style="padding:60px 24px;background:#0A1020">
+      <div style="max-width:1000px;margin:0 auto">
+        <div style="margin-bottom:36px">
+          <div style="color:#FBBF24;font-size:11px;font-weight:800;letter-spacing:3px;margin-bottom:8px">PUBLIC TALKS</div>
+          <h2 style="font-size:28px;font-weight:800;margin:0;color:#E2E8F0">Speaking</h2>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          {talks.map(t => (
+            <a href={t.href} target="_blank" rel="noreferrer" style="text-decoration:none">
+              <div style={`background:#111827;border:1px solid #1E2A3B;border-left:4px solid ${t.color};padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap`}
+                onmouseover="this.style.background='#141E2F'" onmouseout="this.style.background='#111827'">
+                <span style="font-size:22px">{t.icon}</span>
+                <div style="flex:1;min-width:180px">
+                  <div style={`color:${t.color};font-size:14px;font-weight:700;margin-bottom:3px`}>{t.title}</div>
+                  <div style="color:#5B6B7D;font-size:12px">{t.event}</div>
+                </div>
+                <span style="color:#5B6B7D;font-size:12px;white-space:nowrap">{t.year}</span>
+                <span style={`color:${t.color};font-size:13px`}>↗</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Blog ── -->
+    <section id="blog" style="padding:60px 24px">
+      <div style="max-width:1000px;margin:0 auto">
+        <div style="margin-bottom:36px">
+          <div style="color:#F87171;font-size:11px;font-weight:800;letter-spacing:3px;margin-bottom:8px">WRITING</div>
+          <h2 style="font-size:28px;font-weight:800;margin:0;color:#E2E8F0">Blog & Articles <span style="color:#5B6B7D;font-size:16px;font-weight:400">— 56+ published</span></h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:20px">
+          {blogs.map(b => (
+            <a href={b.href} target="_blank" rel="noreferrer" style="text-decoration:none">
+              <div style="background:#111827;border:1px solid #1E2A3B;padding:16px;display:flex;flex-direction:column;gap:10px;height:100%;box-sizing:border-box"
+                onmouseover="this.style.borderColor='#F87171'" onmouseout="this.style.borderColor='#1E2A3B'">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                  <span style="background:#F8717118;border:1px solid #F8717130;color:#F87171;font-size:10px;font-weight:700;padding:2px 8px">{b.tag}</span>
+                  <span style="color:#5B6B7D;font-size:11px">{b.platform} · {b.year}</span>
+                </div>
+                <p style="color:#94A3B8;font-size:13px;line-height:1.6;margin:0;flex:1">{b.title}</p>
+                <span style="color:#F87171;font-size:12px">Read article →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div style="text-align:center">
+          <a href="https://logeshpalani.blogspot.com" target="_blank" rel="noreferrer"
+            style="display:inline-flex;align-items:center;gap:8px;border:1px solid #1E2A3B;color:#94A3B8;padding:10px 24px;font-size:13px;text-decoration:none;margin-right:12px"
+            onmouseover="this.style.borderColor='#F87171';this.style.color='#F87171'"
+            onmouseout="this.style.borderColor='#1E2A3B';this.style.color='#94A3B8'">
+            Personal Blog →
+          </a>
+          <a href="https://www.c-sharpcorner.com/members/logesh-p3" target="_blank" rel="noreferrer"
+            style="display:inline-flex;align-items:center;gap:8px;border:1px solid #1E2A3B;color:#94A3B8;padding:10px 24px;font-size:13px;text-decoration:none"
+            onmouseover="this.style.borderColor='#F87171';this.style.color='#F87171'"
+            onmouseout="this.style.borderColor='#1E2A3B';this.style.color='#94A3B8'">
+            C# Corner Articles →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Contact ── -->
+    <section id="contact" style="padding:60px 24px">
+      <div style="max-width:1000px;margin:0 auto">
+        <div style="margin-bottom:36px">
+          <div style="color:#00FFA3;font-size:11px;font-weight:800;letter-spacing:3px;margin-bottom:8px">GET IN TOUCH</div>
+          <h2 style="font-size:28px;font-weight:800;margin:0;color:#E2E8F0">Contact</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+          {[
+            { label: "Email",     value: "logesh.01@gmail.com",                        href: "mailto:logesh.01@gmail.com",                        icon: "✉️",  color: "#00FFA3" },
+            { label: "LinkedIn",  value: "logeshpalani31",                             href: "https://www.linkedin.com/in/logeshpalani31/",       icon: "💼",  color: "#38BDF8" },
+            { label: "GitHub",    value: "logeshpalani33",                             href: "https://github.com/logeshpalani33",                  icon: "🐙",  color: "#A78BFA" },
+            { label: "Sessionize",value: "logeshpalani32",                             href: "https://sessionize.com/logeshpalani32",             icon: "🎤",  color: "#FBBF24" },
+            { label: "Blog",      value: "logeshpalani.blogspot.com",                  href: "https://logeshpalani.blogspot.com",                  icon: "📝",  color: "#FB923C" },
+            { label: "XMonkeys360","value": "xmonkeys360.com",                        href: "https://xmonkeys360.com",                           icon: "🐒",  color: "#F87171" },
+          ].map(c => (
+            <a href={c.href} target="_blank" rel="noreferrer" style="text-decoration:none">
+              <div style={`background:#111827;border:1px solid #1E2A3B;border-top:2px solid ${c.color};padding:16px`}
+                onmouseover="this.style.background='#141E2F'" onmouseout="this.style.background='#111827'">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                  <span style="font-size:18px">{c.icon}</span>
+                  <span style={`color:${c.color};font-size:11px;font-weight:700;letter-spacing:1px`}>{c.label.toUpperCase()}</span>
+                </div>
+                <div style="color:#94A3B8;font-size:13px;word-break:break-all">{c.value}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Footer ── -->
+    <footer style="border-top:1px solid #1E2A3B;padding:24px;text-align:center">
+      <div style="max-width:1000px;margin:0 auto">
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px">
+          <span style="background:#00FFA3;color:#000;padding:2px 8px;font-size:9px;font-weight:800;letter-spacing:2px">MVP</span>
+          <span style="color:#5B6B7D;font-size:13px">Logesh Palani · Microsoft MVP · Full Stack Developer · Siemens, Bengaluru</span>
+        </div>
+        <div style="color:#1E2A3B;font-size:12px">Built with Astro · {new Date().getFullYear()}</div>
+      </div>
+    </footer>
+
+  </div>
 </Layout>
