@@ -1,0 +1,754 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const bg      = "#070C18";
+const surface = "#0D1321";
+const card    = "#111827";
+const border  = "#1E2A3B";
+const muted   = "#5B6B7D";
+const dim     = "#94A3B8";
+const textColor = "#E2E8F0";
+const green   = "#00FFA3";
+const blue    = "#38BDF8";
+const yellow  = "#FBBF24";
+const red     = "#F87171";
+const purple  = "#A78BFA";
+const orange  = "#FB923C";
+
+const profileTracks = [ 
+  { id: 1, name: "ThoughtWorks",     when: "Month 3–4",  color: green,  icon: "🧪" },
+  { id: 2, name: "Microsoft Azure",  when: "Month 5–6",  color: blue,   icon: "☁️" },
+  { id: 3, name: "Germany / Europe", when: "Background", color: yellow, icon: "🇩🇪" },
+];
+
+const tracks = [
+  {
+    rank: "1", icon: "🧪", name: "ThoughtWorks",
+    when: "Apply Month 3–4 — First target", color: green, color2: "#00FFA320",
+    why: "Fastest path to a real offer from your current position. ThoughtWorks has offices in Chennai and Bangalore — no relocation required. Medium DSA is sufficient (no LeetCode Hard needed). Your Microsoft MVP profile, community speaking, and XMonkeys360 work are a massive cultural advantage. Getting a TW offer gives you confidence and negotiation leverage over the other two tracks.",
+    extra: "TDD + Pair Programming practice (45 min/day). TDD kata daily — FizzBuzz → String Calculator → Roman Numerals. Weekly pairing sessions from MVP network.",
+    rounds: [
+      { name: "Online Coding",          note: "2 problems, any language, Medium difficulty max" },
+      { name: "Technical Interview 1",  note: "DSA + Clean Code + SOLID principles" },
+      { name: "Technical Interview 2",  note: "System Design + LLD + Architecture decisions" },
+      { name: "Pairing Round",          note: "Live TDD with interviewer — most unique round anywhere" },
+      { name: "Social Values Round",    note: "DEI, community, social cause — your strongest round" },
+    ],
+  },
+  {
+    rank: "2", icon: "☁️", name: "Microsoft Azure",
+    when: "Apply Month 5–6 — Second target", color: blue, color2: "#38BDF820",
+    why: "Higher technical bar — requires distributed systems knowledge, Azure internals depth, and LeetCode Hard comfort. Target Azure Functions or Cosmos DB product team. Start networking via MVP community now (Month 1) even though you apply at Month 5. Microsoft interviewers respect MVPs — use that identity actively.",
+    extra: "Azure Functions runtime internals + Cosmos DB partitioning/RU deep dive. GitHub contributions to azure-functions-host and azure-cosmos-dotnet-v3. AZ-204 certification. CAP Theorem, distributed consensus, event-driven architecture.",
+    rounds: [
+      { name: "Recruiter Screen",         note: "Background, motivation, salary expectations" },
+      { name: "Technical Phone Screen",   note: "1 DSA problem + .NET deep dive questions" },
+      { name: "Virtual Onsite Round 1",   note: "DSA — 2 problems (Medium to Hard)" },
+      { name: "Virtual Onsite Round 2",   note: "System Design at Azure scale" },
+      { name: "Virtual Onsite Round 3",   note: ".NET/C# internals deep dive" },
+      { name: "Virtual Onsite Round 4",   note: "Behavioral — STAR method (45 mins)" },
+    ],
+  },
+  {
+    rank: "3", icon: "🇩🇪", name: "Germany / Europe",
+    when: "Parallel — runs in background", color: yellow, color2: "#FBBF2420",
+    why: "Slower process due to visa, relocation, and recruitment timelines — do not treat this as a separate prep sprint. Run it in the background while doing the other two. Siemens internal transfer to Munich is your fastest Germany route. EU Blue Card is your visa pathway — IT is a shortage occupation so the salary threshold is lower (€45,934/yr).",
+    extra: "German language (Duolingo 10 min daily): A1 by Month 3 → A2 by Month 6. European-style CV with photo. Apply 10 jobs/week on StepStone.de from Month 1. Explore Siemens internal mobility portal.",
+    rounds: [
+      { name: "CV Screening",         note: "European 2-page CV with photo — include MVP prominently" },
+      { name: "HR Interview",         note: "Motivation for Germany, visa status, salary expectations" },
+      { name: "Technical Interview",  note: "Similar to big tech — DSA + system design" },
+      { name: "Team Interview",       note: "Cultural fit + English/German communication" },
+      { name: "Offer + Visa Process", note: "EU Blue Card — 2–3 months processing after offer" },
+    ],
+  },
+];
+
+const phases = [
+  {
+    phase: "Phase 1", months: "Month 1–2", icon: "⚡",
+    title: "Core Foundations", subtitle: "Build the daily habits that carry you through all 6 months",
+    color: green,
+    primary: [
+      "NeetCode 150 — Arrays, Strings, HashMaps, Linked Lists (first 50 problems)",
+      "Solve every LeetCode problem test-first in C# (TDD habit from Day 1)",
+      "TDD kata daily: FizzBuzz → String Calculator (first 4 weeks)",
+      "Clean Code + SOLID principles — apply to all practice code",
+      "ASP.NET Core deep dive: DI lifecycle, Middleware, REST API design",
+      "MacBook dev environment: VS Code + C# Dev Kit + Node + .NET 8 SDK",
+      "Create GitHub repos: logesh-leetcode, logesh-dotnet-practice, logesh-system-design",
+    ],
+    secondary: [
+      "German A1 — Duolingo 10 min every morning",
+      "Update LinkedIn 'Open to Work' for India + Europe",
+      "Create StepStone.de + Xing.com accounts — apply 5 jobs/week",
+      "Follow Azure Functions + Cosmos DB team engineers on LinkedIn",
+      "Read Martin Fowler's blog 1 article/week",
+    ],
+    secondaryLabel: "Background — Germany Track",
+    secondaryColor: yellow,
+    milestone: "50 LeetCode problems done. TDD is a daily reflex. Dev environment ready.",
+  },
+  {
+    phase: "Phase 2", months: "Month 3–4", icon: "🧪",
+    title: "Apply to ThoughtWorks", subtitle: "Primary target activated — sharpen the unique TW skills",
+    color: green,
+    primary: [
+      "Apply to ThoughtWorks Chennai + Bangalore (Software Consultant role)",
+      "Complete Trees, Graphs, Dynamic Programming — hit 100+ LeetCode total",
+      "System Design HLD + LLD: design 5 systems (URL Shortener, Twitter, Uber, Parking Lot, Library)",
+      "String Calculator + Roman Numerals kata — practice with a partner from MVP network",
+      "Prepare full social cause answer (digital literacy for rural India)",
+      "Prepare 5 STAR behavioral stories: challenge, conflict, failure, leadership, innovation",
+      "1 Pramp mock interview every Saturday",
+    ],
+    secondary: [
+      "German A2 target",
+      "Apply 10 German companies/week on StepStone",
+      "AZ-204 study begins — 1 hr/week",
+      "Write 1 Azure Functions blog post for Microsoft Tech Community",
+      "Raise 1 GitHub issue on azure-functions-host repo",
+    ],
+    secondaryLabel: "Background — Germany + Azure Track",
+    secondaryColor: yellow,
+    milestone: "ThoughtWorks application submitted. 100 LeetCode done. 5 systems designed. STAR stories ready.",
+  },
+  {
+    phase: "Phase 3", months: "Month 5–6", icon: "☁️",
+    title: "Microsoft + Germany Push", subtitle: "TW process running — second and third tracks activated",
+    color: blue,
+    primary: [
+      "Apply to Azure Functions + Cosmos DB product team on careers.microsoft.com",
+      "Complete 150+ LeetCode (include 20 Hard problems)",
+      "AZ-204 exam — take and pass",
+      "GitHub: 3+ meaningful contributions to Azure repos",
+      "Reach out to Azure product team engineers via MVP network for referrals",
+      "Distributed systems deep dive: CAP theorem, eventual consistency, partitioning",
+      "Azure internals: Functions runtime, Cosmos DB RU/partitioning, multi-region writes",
+    ],
+    secondary: [
+      "German B1 begins — add Babbel alongside Duolingo",
+      "EU Blue Card documents ready (degree certificate, employment record)",
+      "Siemens Germany internal mobility — speak to manager about transfer interest",
+      "AZ-305 (Solutions Architect) prep starts",
+      "Active interviews with German companies in parallel",
+    ],
+    secondaryLabel: "Germany escalates",
+    secondaryColor: yellow,
+    milestone: "150+ LeetCode done. AZ-204 certified. Microsoft application submitted. TW or MS offer in hand.",
+  },
+];
+
+const daily = [
+  { time: "6:30",  label: "German",       task: "Duolingo — 10 min streak. Non-negotiable, every single day.",                                tag: "🇩🇪", color: yellow },
+  { time: "7:00",  label: "LeetCode",     task: "1 problem in C# — write failing test first, then implement (TDD). 30 mins minimum.",         tag: "💻", color: green },
+  { time: "7:35",  label: "GitHub",       task: "Push solution. Add comments. Review yesterday's approach for improvement.",                   tag: "📁", color: blue },
+  { time: "8:00",  label: "Commute",      task: "System Design podcast (ByteByteGo / Gaurav Sen) OR martinfowler.com article.",                tag: "🎧", color: muted },
+  { time: "9:00",  label: "Siemens Work", task: "Work consciously — notice Azure patterns, apply SOLID, observe architecture decisions.",      tag: "💼", color: "#1F2937" },
+  { time: "1:00",  label: "Lunch Break",  task: "1 article: Azure blog / .NET internals / TW Tech Radar / distributed systems.",               tag: "📖", color: blue },
+  { time: "6:00",  label: "LinkedIn",     task: "15 min — engage Azure engineers + German devs + ThoughtWorks consultants. Comment, share.",   tag: "🤝", color: purple },
+  { time: "8:00",  label: "Deep Study",   task: "System Design — 45 mins. Alternate: HLD one day, LLD next day.",                             tag: "🏗️", color: green },
+  { time: "9:00",  label: "Track Skill",  task: "Mon/Wed → TDD kata with partner  |  Tue/Thu → .NET or Angular deep dive",                    tag: "⚙️", color: blue },
+  { time: "10:00", label: "Output",       task: "Blog draft OR STAR story prep OR German grammar exercise — 30 min.",                         tag: "✍️", color: yellow },
+  { time: "10:30", label: "Wrap Up",      task: "Push notes to GitHub. Write 3 lines: learned, struggled, tomorrow.",                         tag: "📁", color: muted },
+];
+
+const weekly = [
+  { short: "MON", color: green,  focus: "DSA + TDD",     tasks: ["2 LeetCode problems — write test first in C#", "TDD kata — 20 mins (String Calculator or similar)", "German 10 mins Duolingo", "Apply 2 jobs on StepStone.de"] },
+  { short: "TUE", color: blue,   focus: ".NET Internals", tasks: ["1 LeetCode — focus on a new pattern", ".NET deep dive: async/await, GC, DI (1 hr)", "German 10 mins Duolingo", "LinkedIn: engage 3 engineers with thoughtful comments"] },
+  { short: "WED", color: purple, focus: "System Design",  tasks: ["2 LeetCode problems", "Design 1 system HLD + LLD — write it out fully", "German 10 mins Duolingo", "Apply 2 jobs + follow up on previous applications"] },
+  { short: "THU", color: orange, focus: "TW / Azure",     tasks: ["1 LeetCode", "TDD kata OR Azure internals deep dive (alternate weeks)", "German 10 mins Duolingo", "1 GitHub contribution or meaningful issue comment"] },
+  { short: "FRI", color: blue,   focus: "Angular + DSA",  tasks: ["2 LeetCode problems", "Angular advanced: Signals, RxJS, Change Detection (1 hr)", "German 10 mins Duolingo", "Write blog draft — publish on weekend"] },
+  { short: "SAT", color: red,    focus: "Mock Day",       tasks: ["1 full mock interview on Pramp (DSA format)", "1 pairing session with MVP network partner (TW prep)", "German 30 mins — Babbel full session", "Publish blog post + promote on LinkedIn/X"] },
+  { short: "SUN", color: muted,  focus: "Review + Plan",  tasks: ["Revise weak DSA patterns from the week", "Update Obsidian notes — organize by topic", "Refine 1 STAR behavioral story", "Plan next week — write Monday's LeetCode target"] },
+];
+
+const nonneg = [
+  { label: "LeetCode / week",  value: "10 problems", color: green },
+  { label: "Job applications", value: "10 / week",   color: yellow },
+  { label: "German streak",    value: "7 / 7 days",  color: red },
+  { label: "GitHub commits",   value: "Daily",       color: blue },
+  { label: "Mock interview",   value: "1 Saturday",  color: purple },
+  { label: "TDD kata session", value: "1 Saturday",  color: green },
+  { label: "Blog post",        value: "1 / week",    color: orange },
+];
+
+const resources = [
+  { cat: "DSA", icon: "💻", color: green, items: [
+    { name: "NeetCode 150",        url: "neetcode.io",            href: "https://neetcode.io",          note: "Free — follow this topic order strictly, C# only" },
+    { name: "LeetCode",            url: "leetcode.com",           href: "https://leetcode.com",         note: "Always solve test-first. Premium at Month 4 only." },
+    { name: "Striver's A2Z Sheet", url: "takeuforward.org",       href: "https://takeuforward.org",     note: "Best supplement, fully free, India-focused" },
+  ]},
+  { cat: "ThoughtWorks Prep", icon: "🧪", color: green, items: [
+    { name: "martinfowler.com",    url: "martinfowler.com",       href: "https://martinfowler.com",                          note: "TW Chief Scientist — read 1 article every week" },
+    { name: "Clean Code",          url: "Robert C. Martin (book)",href: null,                                                note: "TW engineers cite this constantly — read it" },
+    { name: "Refactoring",         url: "Martin Fowler (book)",   href: null,                                                note: "Co-authored by TW — essential for pairing round" },
+    { name: "TW Tech Radar",       url: "thoughtworks.com/radar", href: "https://www.thoughtworks.com/radar",                note: "Read the latest edition before your interview" },
+  ]},
+  { cat: "System Design", icon: "🏗️", color: blue, items: [
+    { name: "ByteByteGo",                   url: "bytebytego.com",          href: "https://bytebytego.com",          note: "Watch 1 video daily during commute" },
+    { name: "Designing Data-Intensive Apps", url: "Martin Kleppmann (book)", href: null,                             note: "1 chapter per week — read like a bible" },
+    { name: "Gaurav Sen",                   url: "youtube.com/@gauravsen",  href: "https://youtube.com/@gauravsen", note: "LLD + HLD deep dives, excellent for interviews" },
+  ]},
+  { cat: "Microsoft / Azure", icon: "☁️", color: purple, items: [
+    { name: "Azure Functions GitHub",    url: "github.com/Azure/azure-functions-host",    href: "https://github.com/Azure/azure-functions-host",    note: "Study internals, raise issues, contribute" },
+    { name: "Cosmos DB GitHub",          url: "github.com/Azure/azure-cosmos-dotnet-v3", href: "https://github.com/Azure/azure-cosmos-dotnet-v3", note: "Read source, study partitioning logic" },
+    { name: "AZ-204 Study Guide",        url: "docs.microsoft.com",                       href: "https://docs.microsoft.com",                       note: "Free official Microsoft docs — follow structured path" },
+    { name: "Azure Architecture Center", url: "learn.microsoft.com/azure/architecture",   href: "https://learn.microsoft.com/azure/architecture",   note: "Study reference architectures before interviews" },
+  ]},
+  { cat: "Germany Job Hunt", icon: "🇩🇪", color: yellow, items: [
+    { name: "StepStone.de",    url: "stepstone.de",     href: "https://www.stepstone.de",  note: "Primary — apply 10 jobs/week from Month 1" },
+    { name: "Arbeitnow",       url: "arbeitnow.com",    href: "https://www.arbeitnow.com", note: "Filter by Visa Sponsorship — very useful" },
+    { name: "Xing.com",        url: "xing.com",         href: "https://www.xing.com",      note: "German LinkedIn — create profile and stay active" },
+    { name: "nextleveljobs.eu",url: "nextleveljobs.eu", href: "https://nextleveljobs.eu",  note: "€100k+ European senior tech roles" },
+  ]},
+  { cat: "Mock Interviews", icon: "🎤", color: red, items: [
+    { name: "Pramp",            url: "pramp.com",       href: "https://www.pramp.com",       note: "Free peer mock interviews — 1 every Saturday" },
+    { name: "Interviewing.io",  url: "interviewing.io", href: "https://interviewing.io",     note: "Anonymous mock with real engineers — Month 4+" },
+    { name: "LeetCode Premium", url: "leetcode.com",    href: "https://leetcode.com",        note: "Company-specific Qs — buy at Month 4 only" },
+  ]},
+];
+
+const starStories = [
+  { title: "Biggest technical challenge", prompt: "A hard problem at Siemens you solved — use your Azure/IoT/MAUI work",              color: green  },
+  { title: "Conflict with a team member",  prompt: "Disagreement on technical approach — how you listened and resolved it",           color: blue   },
+  { title: "Time you failed and learned",  prompt: "A deployment, design, or deadline failure — what changed after",                  color: red    },
+  { title: "Leadership without authority", prompt: "Driving a technical decision or standard without being the manager",              color: purple },
+  { title: "Innovation you brought",       prompt: "New tool, pattern, or process you introduced — quantify the impact",              color: orange },
+  { title: "Social cause / community",     prompt: "XMonkeys360, MVP work, rural tech outreach — your authentic story for TW",        color: yellow },
+];
+
+const rules = [
+  { text: "90% of prep is shared. DSA, system design, .NET, Angular — do it once for all three tracks.",   color: green  },
+  { text: "ThoughtWorks first. Fastest offer. MVP culture advantage is real. No LeetCode Hard required.",   color: green  },
+  { text: "Microsoft second. Higher bar. Start MVP networking now, apply formally at Month 5.",             color: blue   },
+  { text: "Germany runs in background. Apply weekly. Siemens transfer is your fastest Germany route.",      color: yellow },
+  { text: "Never skip DSA. Even 1 problem on the worst day keeps the streak alive.",                        color: red    },
+  { text: "Write test first always. TDD is a daily habit now — not just ThoughtWorks prep.",                color: green  },
+  { text: "Push everything to GitHub. Daily commits are your public portfolio to recruiters.",              color: blue   },
+  { text: "Use your MVP blog. Document the journey publicly. Recruiters find you — not the other way.",     color: purple },
+  { text: "Siemens is your advantage, not your ceiling. Every Azure task at work is interview prep.",       color: orange },
+];
+
+const detailedPlan = [
+  {
+    icon: "💻", title: "DSA (24-Week Execution Plan)", color: green,
+    objective: "Reach 150+ LeetCode with pattern fluency, speed, and clean explanation under interview pressure.",
+    blocks: [
+      { phase: "Weeks 1-4 · Foundations + Speed Basics",          items: ["Arrays, Strings, Hash Maps, Two Pointers, Sliding Window, Stack/Queue.", "Daily: 1 timed problem (30 mins) + 1 review of yesterday's solution.", "Output: maintain notes by pattern: trigger, template, pitfalls, complexity.", "Target: 35-40 solved; 80% medium problems done in <=35 mins."] },
+      { phase: "Weeks 5-8 · Linked List + Binary Search + Trees",  items: ["Linked List manipulations, Binary Search variants, DFS/BFS on trees.", "Daily cadence: test-first in C# + one dry-run on paper before coding.", "Weekend: re-solve 8 weak problems without looking at old code.", "Target: 70 total solved; explain recursion and traversal tradeoffs clearly."] },
+      { phase: "Weeks 9-12 · Graphs + Heaps + Greedy",            items: ["Topological sort, shortest path intuition, Union-Find basics, heap patterns.", "Mock format: 45-min live solve + 15-min complexity and edge-case defense.", "Build 'failure log': all wrong assumptions with corrected pattern.", "Target: 100 total solved; medium graph questions completed confidently."] },
+      { phase: "Weeks 13-18 · DP + Backtracking + Advanced Trees", items: ["1D/2D DP states, memoization-to-tabulation conversion, pruning strategy.", "Practice proving recurrence: state, transition, base case, complexity.", "Weekly: 1 hard question only after writing brute-force first.", "Target: 130 solved; can derive DP instead of memorizing answers."] },
+      { phase: "Weeks 19-24 · Interview Simulation",              items: ["Mixed sets (easy/medium/hard) under strict timer and narration.", "Two mocks/week: one ThoughtWorks style, one Microsoft style.", "Same-day retrospective: what slowed you down, what to automate mentally.", "Target: 150+ solved, including 20 hard; consistent communication quality."] },
+    ],
+  },
+  {
+    icon: "🏗️", title: "System Design (HLD + LLD)", color: blue,
+    objective: "Design production-grade systems with clear tradeoffs, estimates, and failure handling.",
+    blocks: [
+      { phase: "Weeks 1-6 · Core Building Blocks",     items: ["Load balancer, caching, DB indexing, sharding, queues, rate limiting.", "Every design starts with requirements: scale, SLA, consistency, budget.", "Deliver 1-page architecture summary per topic with pros/cons.", "Target: explain CAP, partitioning, and cache strategy without notes."] },
+      { phase: "Weeks 7-14 · Canonical Systems",       items: ["URL shortener, notification system, chat, news feed, ride matching.", "For each: API contract, data model, read/write path, bottlenecks, observability.", "Practice back-of-envelope math: QPS, storage, bandwidth, replication cost.", "Target: 8 full HLD walkthroughs recorded and reviewed."] },
+      { phase: "Weeks 15-24 · Azure-Scale Orientation", items: ["Event-driven design with Functions, Service Bus, Cosmos DB partition strategy.", "Failure scenarios: regional outage, retry storm, poison messages, hot partitions.", "Security controls: authn/authz boundaries, secrets, network isolation, audit.", "Target: 3 Azure-specific designs defended in 45-min mock interviews."] },
+    ],
+  },
+  {
+    icon: "⚙️", title: ".NET / C# Internals", color: purple,
+    objective: "Demonstrate deep runtime knowledge and production debugging ability.",
+    blocks: [
+      { phase: "Daily 45 mins · Concept + Code", items: ["async/await state machine, ConfigureAwait, cancellation propagation.", "GC generations, allocation profiling, Span<T>, pooling and memory pressure.", "ASP.NET pipeline ordering, DI lifetime bugs, middleware diagnostics.", "Target: build mini-labs for each topic and document findings in GitHub."] },
+      { phase: "Weekly Deep Dive",               items: ["Read runtime/source snippets and annotate in your own words.", "Create one 'interview explainer' note per concept with diagrams.", "Add one benchmark or profiling output to prove optimization claims.", "Target: 24 strong explainers by end of 6 months."] },
+    ],
+  },
+  {
+    icon: "🅰️", title: "Angular + Frontend Architecture", color: orange,
+    objective: "Be interview-ready for modern Angular patterns and UI performance.",
+    blocks: [
+      { phase: "Weeks 1-8 · Core Fluency",          items: ["Signals, RxJS stream design, state boundaries, smart vs dumb components.", "Form handling, validation strategy, API error surfaces, loading UX.", "Target: refactor one existing Siemens-side module with measurable cleanup."] },
+      { phase: "Weeks 9-16 · Performance + Testing", items: ["Change detection strategy, memoization, rendering bottlenecks.", "Unit and integration tests for components/services/guards.", "Target: one end-to-end demo app with clean architecture and tests."] },
+      { phase: "Weeks 17-24 · Interview Packaging",  items: ["Prepare architecture narrative: module boundaries and tradeoff decisions.", "Collect before/after metrics: bundle size, render time, bug count.", "Target: 2 polished project stories for STAR + technical rounds."] },
+    ],
+  },
+  {
+    icon: "☁️", title: "Azure + Cloud Track", color: blue,
+    objective: "Move from consumer-level Azure knowledge to product-team-level depth.",
+    blocks: [
+      { phase: "Month 1-2 · Fundamentals + AZ-204 Track", items: ["Compute, storage, networking, IAM, monitoring, cost controls.", "Hands-on labs: Functions, App Service, Storage, Service Bus, Key Vault.", "Target: complete AZ-204 syllabus coverage map."] },
+      { phase: "Month 3-4 · Product Internals",           items: ["Azure Functions host internals and execution pipeline understanding.", "Cosmos DB: partition keys, RU budgeting, consistency levels, anti-patterns.", "Target: open issues/PR comments with technical depth in Azure repos."] },
+      { phase: "Month 5-6 · Interview and Contribution",  items: ["Design and defend 3 Azure-native systems with failure playbooks.", "Produce public technical artifacts: blogs, diagrams, benchmark notes.", "Target: AZ-204 passed + 3 meaningful OSS contributions."] },
+    ],
+  },
+  {
+    icon: "🎤", title: "Behavioral + Communication + Germany Plan", color: yellow,
+    objective: "Win culture rounds, stand out with impact stories, and keep EU pipeline moving weekly.",
+    blocks: [
+      { phase: "Behavioral (Weekly)",     items: ["Prepare and rehearse 8 STAR stories with measurable outcomes.", "Record one mock answer/week and trim filler words and vague claims.", "Target: deliver any STAR answer in <=2 mins with clear Result section."] },
+      { phase: "Germany/EU (Every Week)", items: ["10 targeted applications/week with role-personalized CV keywords.", "2 follow-ups/week + maintain referral tracker + interview pipeline board.", "German language streak: 7/7 days (A1 -> A2 -> B1 path).", "Target: consistent pipeline with interview momentum by Month 3 onward."] },
+    ],
+  },
+];
+
+const twSocialCause = [
+  { label: "Opening",                    color: green,  text: "I believe technology is most powerful when it reaches people who have never had access to it. Growing up in Tamil Nadu, I saw how digital skills could transform career opportunities — but the gap between urban tech education and rural access was enormous." },
+  { label: "Personal connection",        color: blue,   text: "As a Microsoft MVP, I volunteer with XMonkeys360 and speak at community events not just to share technical knowledge, but to make advanced concepts accessible to developers from non-metro backgrounds. Many of my blog readers are first-generation tech professionals from smaller towns." },
+  { label: "How technology helps",       color: purple, text: "I use my blog, YouTube channel, and speaking sessions to break down complex topics — Azure, .NET, MAUI — into content that developers with limited resources can act on immediately without expensive courses or tools." },
+  { label: "Connection to ThoughtWorks", color: green,  text: "ThoughtWorks' belief in technology for social good resonates deeply with this. I want to work in an environment where technical excellence and social responsibility aren't separate values — where building well and building for impact are the same thing." },
+];
+
+const twPairingSteps = [
+  { step: "1 – Read aloud",    note: "Read the problem out loud. Ask clarifying questions before touching the keyboard.",      color: green  },
+  { step: "2 – Write the test",note: "Write a failing unit test first. Say: 'I'll write a test for the simplest case first.'", color: blue   },
+  { step: "3 – Make it pass",  note: "Write the minimum code to make the test pass. No extra logic yet.",                     color: purple },
+  { step: "4 – Refactor",      note: "Clean up the code — extract methods, rename variables. Say what you're doing.",         color: orange },
+  { step: "5 – Next test",     note: "Move to the next edge case. Repeat the Red → Green → Refactor cycle.",                 color: green  },
+  { step: "6 – Narrate always",note: "Say every thought out loud. Silence is the enemy in the pairing round.",                color: red    },
+];
+
+const dotnetTopics = [
+  { topic: "async / await internals",    note: "State machine, ConfigureAwait(false), deadlock scenarios",  color: blue   },
+  { topic: "Garbage Collection",         note: "Gen 0/1/2, LOH, how to avoid GC pressure",                  color: green  },
+  { topic: "DI Lifetimes",               note: "Singleton vs Scoped vs Transient — captive dependency bug",  color: purple },
+  { topic: "Middleware pipeline",        note: "Request processing order in ASP.NET Core — order matters",   color: orange },
+  { topic: "LINQ deferred execution",    note: "When queries execute, IEnumerable vs IQueryable",            color: blue   },
+  { topic: "Task Parallel Library",      note: "Task.WhenAll, CancellationToken, async void anti-pattern",   color: red    },
+  { topic: "Memory: Span<T>, Memory<T>", note: "Zero-allocation patterns, stackalloc, when to use",         color: green  },
+  { topic: "Records + Immutability",     note: "C# 9+ records, value equality, with expressions",            color: purple },
+];
+
+const tabs = ["🎯 Tracks & Phases","📅 Daily Routine","🗓️ Weekly Plan","📚 Resources","📘 Detailed Plan","🎤 Interview Prep","📊 Progress"];
+const progressCounters = [
+  { label: "LeetCode Problems", id: "leetcode", max: 150, color: green,  icon: "💻" },
+  { label: "German Streak Days",id: "german",   max: 180, color: yellow, icon: "🇩🇪" },
+  { label: "Jobs Applied",      id: "jobs",     max: 240, color: blue,   icon: "📨" },
+  { label: "Mock Interviews",   id: "mocks",    max: 24,  color: purple, icon: "🎤" },
+];
+---
+
+<Layout title="Operation Big Tech — Logesh Palani">
+  <div style={`font-family:'JetBrains Mono','Fira Code','Cascadia Code','Consolas','Courier New',monospace;background:${bg};min-height:100vh;color:${textColor};font-size:15px`}>
+
+    <!-- ── Header ── -->
+    <div style={`background:linear-gradient(135deg,#07101F 0%,#0A152B 60%,#07101F 100%);border-bottom:1px solid ${border};padding:28px 24px 22px;position:relative;overflow:hidden`}>
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(ellipse at 10% 50%,rgba(0,255,163,0.06) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(56,189,248,0.06) 0%,transparent 55%),radial-gradient(ellipse at 50% 90%,rgba(167,139,250,0.04) 0%,transparent 50%)"></div>
+      <div style="position:relative;max-width:900px;margin:0 auto">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+          <span style={`background:${green};color:#000;padding:3px 10px;font-size:10px;font-weight:800;letter-spacing:2px`}>MVP</span>
+          <span style={`color:${muted};font-size:12px;letter-spacing:1.5px`}>LOGESH PALANI · SIEMENS · BENGALURU</span>
+        </div>
+        <h1 style={`font-size:clamp(22px,5vw,36px);font-weight:800;margin:0 0 6px;letter-spacing:1px;background:linear-gradient(100deg,${green} 0%,${blue} 50%,${purple} 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent`}>OPERATION BIG TECH</h1>
+        <p style={`color:${dim};font-size:15px;margin:0 0 20px`}>One prep. Three exits. Take whichever opens first.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          {profileTracks.map(t => (
+            <div style={`background:${t.color}0D;border:1px solid ${t.color}35;padding:8px 16px;display:flex;align-items:center;gap:10px`}>
+              <div style={`width:24px;height:24px;border-radius:50%;background:${t.color}18;border:1px solid ${t.color}40;color:${t.color};font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center`}>{t.id}</div>
+              <div>
+                <div style={`color:${t.color};font-size:12px;font-weight:700`}>{t.name}</div>
+                <div style={`color:${muted};font-size:10px`}>{t.when}</div>
+              </div>
+              <span style="font-size:18px;margin-left:2px">{t.icon}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tabs ── -->
+    <div style={`display:flex;overflow-x:auto;border-bottom:1px solid ${border};background:#0A1020`}>
+      {tabs.map((tab, i) => (
+        <button class="tab-btn" data-tab={i}
+          style={`background:none;border:none;cursor:pointer;padding:14px 20px;font-size:14px;white-space:nowrap;font-family:inherit;letter-spacing:0.2px;color:${i===0?green:muted};border-bottom:${i===0?`2px solid ${green}`:'2px solid transparent'};font-weight:${i===0?'600':'400'}`}
+        >{tab}</button>
+      ))}
+    </div>
+
+    <div style="padding:24px 20px;max-width:900px;margin:0 auto">
+
+      <!-- ── TAB 0: Tracks & Phases ── -->
+      <div class="tab-panel" data-panel="0">
+        <div style={`background:${green}0A;border:1px solid ${green}25;padding:16px 20px;margin-bottom:28px`}>
+          <div style={`color:${green};font-size:12px;font-weight:800;letter-spacing:2px;margin-bottom:10px`}>READ THIS FIRST — THE ONE INSIGHT</div>
+          <p style={`color:${dim};font-size:15px;line-height:1.9;margin:0`}>
+            90% of preparation is <span style={`color:${green};font-weight:700`}>identical</span> across all 3 tracks. DSA, system design, .NET internals, Angular, behavioral stories — do it once. The additions per track are small. You are not doing three preps.
+            <span style={`color:${textColor};font-weight:700`}> You are doing one prep with three possible exits. Take whichever opens first.</span>
+          </p>
+        </div>
+
+        <div style={`color:${green};font-size:12px;font-weight:800;letter-spacing:2px;margin-bottom:12px`}>THREE TRACKS · PRIORITY ORDER</div>
+        {tracks.map(t => (
+          <details style={`background:${card};border:1px solid ${border};border-left:4px solid ${t.color};margin-bottom:10px;overflow:hidden`}>
+            <summary style="padding:16px 20px;cursor:pointer;display:flex;align-items:flex-start;gap:14px;list-style:none">
+              <div style={`min-width:36px;height:36px;border-radius:50%;background:${t.color2};border:1px solid ${t.color}40;color:${t.color};font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center`}>{t.rank}</div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:5px">
+                  <span style="font-size:18px">{t.icon}</span>
+                  <span style={`color:${t.color};font-size:16px;font-weight:700`}>{t.name}</span>
+                  <span style={`background:${t.color2};color:${t.color};font-size:10px;padding:2px 9px;border:1px solid ${t.color}30`}>{t.when}</span>
+                </div>
+                <p style={`color:${dim};font-size:14px;line-height:1.8;margin:0 0 10px`}>{t.why}</p>
+                <div style={`background:${surface};padding:10px 14px;border-left:2px solid ${t.color}50`}>
+                  <span style={`color:${t.color};font-size:12px;font-weight:700`}>ADDITIONS ONLY: </span>
+                  <span style={`color:${dim};font-size:13px`}>{t.extra}</span>
+                </div>
+              </div>
+            </summary>
+            <div style={`border-top:1px solid ${border};padding:16px 20px`}>
+              <div style={`color:${t.color};font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:10px`}>INTERVIEW ROUNDS</div>
+              {t.rounds.map((r, j) => (
+                <div style="display:flex;gap:12px;margin-bottom:8px;align-items:flex-start">
+                  <div style={`min-width:24px;height:24px;background:${t.color2};border:1px solid ${t.color}30;color:${t.color};font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center`}>{j+1}</div>
+                  <div>
+                    <div style={`color:${textColor};font-size:14px;font-weight:600`}>{r.name}</div>
+                    <div style={`color:${muted};font-size:13px;margin-top:3px`}>{r.note}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </details>
+        ))}
+
+        <div style={`color:${blue};font-size:12px;font-weight:800;letter-spacing:2px;margin:28px 0 12px`}>6-MONTH PHASE PLAN</div>
+        {phases.map((p, i) => (
+          <details open={i===0} style={`background:${card};border:1px solid ${border};border-left:3px solid ${p.color};margin-bottom:10px;overflow:hidden`}>
+            <summary style="padding:14px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;list-style:none">
+              <span style="font-size:20px">{p.icon}</span>
+              <div style="flex:1">
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:3px">
+                  <span style={`color:${p.color};font-weight:700;font-size:11px`}>{p.phase}</span>
+                  <span style={`background:${p.color}15;color:${p.color};font-size:10px;padding:2px 8px;border:1px solid ${p.color}25`}>{p.months}</span>
+                </div>
+                <div style={`font-size:14px;font-weight:700;color:${textColor}`}>{p.title}</div>
+                <div style={`font-size:11px;color:${muted};margin-top:2px`}>{p.subtitle}</div>
+              </div>
+            </summary>
+            <div style={`border-top:1px solid ${border};padding:16px 18px`}>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
+                <div>
+                  <div style={`color:${p.color};font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:12px`}>PRIMARY FOCUS</div>
+                  {p.primary.map(g => (
+                    <div style="display:flex;gap:8px;margin-bottom:8px">
+                      <span style={`color:${p.color};margin-top:3px;flex-shrink:0`}>▸</span>
+                      <span style={`color:${dim};font-size:14px;line-height:1.7`}>{g}</span>
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <div style={`color:${p.secondaryColor};font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:12px`}>{p.secondaryLabel.toUpperCase()}</div>
+                  {p.secondary.map(g => (
+                    <div style="display:flex;gap:8px;margin-bottom:8px">
+                      <span style={`color:${p.secondaryColor};margin-top:3px;flex-shrink:0`}>·</span>
+                      <span style={`color:${muted};font-size:14px;line-height:1.7`}>{g}</span>
+                    </div>
+                  ))}
+                  <div style={`margin-top:14px;background:${p.color}0D;border:1px solid ${p.color}20;padding:10px 12px`}>
+                    <div style={`color:${p.color};font-size:12px;font-weight:700;margin-bottom:6px`}>PHASE MILESTONE</div>
+                    <div style={`color:${dim};font-size:13px;line-height:1.7`}>{p.milestone}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        ))}
+
+        <div style={`background:${card};border:1px solid ${border};padding:18px 20px;margin-top:10px`}>
+          <div style={`color:${green};font-size:12px;font-weight:800;letter-spacing:2px;margin-bottom:14px`}>GOLDEN RULES — COMMIT THESE TO MEMORY</div>
+          {rules.map(r => (
+            <div style="display:flex;gap:10px;margin-bottom:9px;align-items:flex-start">
+              <span style={`color:${r.color};font-size:15px;margin-top:2px`}>→</span>
+              <span style={`color:${dim};font-size:15px;line-height:1.7`}>{r.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- ── TAB 1: Daily Routine ── -->
+      <div class="tab-panel" data-panel="1" style="display:none">
+        <div style={`background:${green}0A;border:1px solid ${green}25;padding:12px 16px;margin-bottom:22px`}>
+          <span style={`color:${green};font-size:12px;font-weight:700`}>KEY CHANGE: </span>
+          <span style={`color:${dim};font-size:14px`}>The 7 AM LeetCode slot now uses TDD — write the failing test first, then implement. Same 30 mins, same habit. This one change prepares you for the ThoughtWorks pairing round without adding any extra time.</span>
+        </div>
+        <div style="position:relative">
+          <div style={`position:absolute;left:80px;top:0;bottom:0;width:1px;background:${border}`}></div>
+          {daily.map(slot => (
+            <div style="display:flex;margin-bottom:8px;align-items:flex-start">
+              <div style={`min-width:80px;font-size:13px;color:${muted};padding-top:10px;text-align:right;padding-right:16px`}>{slot.time}</div>
+              <div style={`width:12px;height:12px;border-radius:50%;background:${slot.color};margin-top:11px;min-width:12px;position:relative;z-index:1;border:2px solid ${bg}`}></div>
+              <div style={`background:${card};border:1px solid ${border};border-left:2px solid ${slot.color}60;padding:9px 14px;flex:1;margin-left:14px`}>
+                <span style={`color:${slot.color};font-size:12px;font-weight:700;margin-right:8px`}>{slot.tag} {slot.label}</span>
+                <div style={`color:${dim};font-size:14px;margin-top:4px;line-height:1.65`}>{slot.task}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={`background:${card};border:1px solid ${yellow}30;padding:14px 18px;margin-top:16px`}>
+          <div style={`color:${yellow};font-size:12px;font-weight:700;margin-bottom:10px`}>ON BAD DAYS — MINIMUM VIABLE DAY</div>
+          <p style={`color:${dim};font-size:14px;line-height:1.8;margin:0`}>If you only have 30 minutes, do <span style={`color:${green}`}>1 LeetCode + German streak</span>. That's it. A 1-problem day is infinitely better than a 0-problem day. The streak matters more than any single session.</p>
+        </div>
+      </div>
+
+      <!-- ── TAB 2: Weekly Plan ── -->
+      <div class="tab-panel" data-panel="2" style="display:none">
+        <p style={`color:${muted};font-size:14px;margin-bottom:20px`}>Each day has a primary technical focus. Saturday's pairing session is new — find a partner in your MVP network. German streak runs every single day without exception.</p>
+        <div style="display:grid;gap:8px">
+          {weekly.map(day => (
+            <div style={`background:${card};border:1px solid ${border};border-left:3px solid ${day.color};padding:12px 18px;display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:start`}>
+              <div>
+                <div style={`color:${day.color};font-weight:700;font-size:14px`}>{day.short}</div>
+                <div style={`color:${muted};font-size:10px;margin-top:3px;line-height:1.4`}>{day.focus}</div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                {day.tasks.map(task => (
+                  <div style={`background:${surface};padding:6px 12px;font-size:13px;color:${dim};border:1px solid ${border}`}>
+                    <span style={`color:${day.color}`}>▸ </span>{task}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={`background:${card};border:1px solid ${yellow}30;padding:16px 18px;margin-top:16px`}>
+          <div style={`color:${yellow};font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:14px`}>WEEKLY NON-NEGOTIABLES — HIT ALL 7</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px">
+            {nonneg.map(t => (
+              <div style={`background:${surface};padding:10px 12px;border:1px solid ${border}`}>
+                <div style={`color:${t.color};font-size:18px;font-weight:800`}>{t.value}</div>
+                <div style={`color:${muted};font-size:12px;margin-top:4px`}>{t.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB 3: Resources ── -->
+      <div class="tab-panel" data-panel="3" style="display:none">
+        <div style={`background:${red}0A;border:1px solid ${red}25;padding:10px 16px;margin-bottom:20px`}>
+          <span style={`color:${red};font-size:12px;font-weight:700`}>RULE: </span>
+          <span style={`color:${dim};font-size:14px`}>Do not add more resources. Finish what's listed here. One NeetCode problem solved deeply is worth ten problems skimmed.</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:14px">
+          {resources.map(r => (
+            <div style={`background:${card};border:1px solid ${border};border-top:2px solid ${r.color};padding:16px`}>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+                <span style="font-size:18px">{r.icon}</span>
+                <span style={`color:${r.color};font-weight:700;font-size:11px;letter-spacing:1px`}>{r.cat.toUpperCase()}</span>
+              </div>
+              {r.items.map(item => (
+                <div style={`background:${surface};padding:10px 12px;margin-bottom:8px;border-left:2px solid ${r.color}40`}>
+                  <div style={`color:${textColor};font-size:14px;font-weight:600;margin-bottom:3px`}>{item.name}</div>
+                  {item.href
+                    ? <a href={item.href} target="_blank" rel="noreferrer" style={`color:${r.color};font-size:12px;display:inline-block;margin-top:2px;text-decoration:underline;text-decoration-style:dotted;opacity:0.85`}>{item.url}</a>
+                    : <span style={`color:${muted};font-size:12px;margin-top:2px;display:inline-block;font-style:italic`}>{item.url}</span>
+                  }
+                  <div style={`color:${dim};font-size:13px;margin-top:5px;line-height:1.5`}>→ {item.note}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- ── TAB 4: Detailed Plan ── -->
+      <div class="tab-panel" data-panel="4" style="display:none">
+        <div style={`background:${blue}10;border:1px solid ${blue}25;padding:14px 18px;margin-bottom:18px`}>
+          <div style={`color:${blue};font-size:12px;font-weight:800;letter-spacing:1.5px;margin-bottom:8px`}>FULL DETAILED PLAN · 24 WEEKS</div>
+          <p style={`color:${dim};font-size:14px;line-height:1.75;margin:0`}>This section gives deep execution detail for DSA, System Design, .NET, Angular, Azure, behavioral prep, and Germany pipeline. Follow it as an operating manual: complete phase items, ship outputs weekly, and review gaps every Sunday.</p>
+        </div>
+        <div style="display:grid;gap:12px">
+          {detailedPlan.map(plan => (
+            <div style={`background:${card};border:1px solid ${border};border-left:4px solid ${plan.color};padding:16px 18px`}>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+                <span style="font-size:18px">{plan.icon}</span>
+                <span style={`color:${plan.color};font-size:15px;font-weight:700`}>{plan.title}</span>
+              </div>
+              <p style={`color:${dim};font-size:14px;margin:0 0 12px;line-height:1.7`}>{plan.objective}</p>
+              {plan.blocks.map(block => (
+                <div style={`background:${surface};border:1px solid ${border};padding:12px;margin-bottom:9px`}>
+                  <div style={`color:${plan.color};font-size:13px;font-weight:700;margin-bottom:8px`}>{block.phase}</div>
+                  {block.items.map(item => (
+                    <div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start">
+                      <span style={`color:${plan.color};margin-top:2px`}>▸</span>
+                      <span style={`color:${muted};font-size:13px;line-height:1.65`}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- ── TAB 5: Interview Prep ── -->
+      <div class="tab-panel" data-panel="5" style="display:none">
+        <div style={`color:${purple};font-size:12px;font-weight:800;letter-spacing:2px;margin-bottom:12px`}>BEHAVIORAL — STAR METHOD STORIES TO PREPARE</div>
+        <p style={`color:${muted};font-size:14px;margin-bottom:18px;line-height:1.8`}>Prepare all 6 stories. Write them out in full — Situation, Task, Action, Result. Your MVP community work and Siemens experience give you rich material. The social cause story is your most important asset for ThoughtWorks Round 5.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-bottom:28px">
+          {starStories.map(s => (
+            <div style={`background:${card};border:1px solid ${border};border-left:3px solid ${s.color};padding:14px 16px`}>
+              <div style={`color:${s.color};font-size:14px;font-weight:700;margin-bottom:8px`}>{s.title}</div>
+              <div style={`color:${muted};font-size:13px;line-height:1.65`}>{s.prompt}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={`color:${green};font-size:12px;font-weight:800;letter-spacing:2px;margin-bottom:12px`}>THOUGHTWORKS — YOUR SOCIAL CAUSE ANSWER</div>
+        <div style={`background:${card};border:1px solid ${green}30;padding:16px 18px;margin-bottom:28px`}>
+          {twSocialCause.map((part, i) => (
+            <div style={`margin-bottom:12px;padding-bottom:12px;${i < twSocialCause.length-1 ? `border-bottom:1px solid ${border}` : ''}`}>
+              <div style={`color:${part.color};font-size:12px;font-weight:700;margin-bottom:6px`}>{part.label.toUpperCase()}</div>
+              <p style={`color:${dim};font-size:15px;line-height:1.8;margin:0`}>{part.text}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={`color:${green};font-size:12px;font-weight:800;letter-spacing:2px;margin-bottom:12px`}>THOUGHTWORKS — TDD PAIRING ROUND GUIDE</div>
+        <div style={`background:${card};border:1px solid ${border};padding:16px 18px;margin-bottom:24px`}>
+          <p style={`color:${dim};font-size:15px;line-height:1.8;margin:0 0 16px`}>ThoughtWorks is not testing if your code works. They are testing <span style={`color:${green}`}>how you think, communicate, and collaborate while coding.</span> A candidate who writes perfect code silently loses to a candidate who writes decent code and narrates every thought.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+            {twPairingSteps.map(s => (
+              <div style={`background:${surface};padding:10px 12px;border-left:2px solid ${s.color}50`}>
+                <div style={`color:${s.color};font-size:13px;font-weight:700;margin-bottom:5px`}>{s.step}</div>
+                <div style={`color:${muted};font-size:13px;line-height:1.65`}>{s.note}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={`color:${blue};font-size:12px;font-weight:800;letter-spacing:2px;margin-bottom:12px`}>.NET INTERNALS — MICROSOFT INTERVIEW MUST-KNOWS</div>
+        <div style={`background:${card};border:1px solid ${border};padding:16px 18px`}>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px">
+            {dotnetTopics.map(t => (
+              <div style={`background:${surface};padding:9px 12px;border-left:2px solid ${t.color}40`}>
+                <div style={`color:${t.color};font-size:14px;font-weight:700`}>{t.topic}</div>
+                <div style={`color:${muted};font-size:13px;margin-top:4px;line-height:1.55`}>{t.note}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB 6: Progress ── -->
+      <div class="tab-panel" data-panel="6" style="display:none">
+        <div style={`color:${green};font-size:13px;font-weight:800;letter-spacing:2px;margin-bottom:6px`}>YOUR PROGRESS DASHBOARD</div>
+        <p style={`color:${muted};font-size:14px;margin-bottom:24px;line-height:1.65`}>Track your key metrics toward the 6-month goal. Click + / − to update. Check off milestones as you complete them.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:32px">
+          {progressCounters.map(m => (
+            <div style={`background:${card};border:1px solid ${border};border-top:3px solid ${m.color};padding:18px 16px`}>
+              <div style={`color:${m.color};font-size:13px;font-weight:700;margin-bottom:14px`}>{m.icon} {m.label}</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+                <button class="counter-dec" data-id={m.id}
+                  style={`background:${surface};border:1px solid ${border};color:${muted};width:32px;height:32px;cursor:pointer;font-size:18px;font-family:inherit`}>−</button>
+                <span class="counter-val" data-id={m.id} data-max={m.max}
+                  style={`color:${textColor};font-size:32px;font-weight:800;min-width:60px;text-align:center`}>0</span>
+                <button class="counter-inc" data-id={m.id} data-max={m.max}
+                  style={`background:${m.color}18;border:1px solid ${m.color}50;color:${m.color};width:32px;height:32px;cursor:pointer;font-size:18px;font-family:inherit`}>+</button>
+              </div>
+              <div style={`background:${surface};height:8px;border-radius:4px;overflow:hidden;margin-bottom:8px`}>
+                <div class="counter-bar" data-id={m.id} data-max={m.max}
+                  style={`width:0%;height:100%;background:${m.color};transition:width 0.3s ease;border-radius:4px`}></div>
+              </div>
+              <div style="display:flex;justify-content:space-between">
+                <span class="counter-pct" data-id={m.id} style={`color:${muted};font-size:12px`}>0% done</span>
+                <span style={`color:${muted};font-size:12px`}>target: {m.max}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={`color:${blue};font-size:13px;font-weight:800;letter-spacing:2px;margin-bottom:14px`}>PHASE MILESTONES — CHECK OFF AS YOU COMPLETE</div>
+        {phases.map(p => (
+          <div style={`background:${card};border:1px solid ${border};border-left:4px solid ${p.color};padding:18px 20px;margin-bottom:12px`}>
+            <div style={`color:${p.color};font-size:15px;font-weight:700;margin-bottom:14px`}>{p.icon} {p.phase} · {p.months} — {p.title}</div>
+            {[...p.primary, `✦ MILESTONE: ${p.milestone}`].map((task, ti) => {
+              const isMilestone = ti === p.primary.length;
+              return (
+                <label style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;cursor:pointer">
+                  <input type="checkbox" class="milestone-cb" style={`margin-top:4px;accent-color:${p.color};width:16px;height:16px;flex-shrink:0;cursor:pointer`} />
+                  <span style={`color:${isMilestone ? p.color : dim};font-size:14px;line-height:1.6;font-weight:${isMilestone ? '600' : '400'}`}>{task}</span>
+                </label>
+              );
+            })}
+          </div>
+        ))}
+
+        <div style={`background:${green}08;border:1px solid ${green}25;padding:20px 22px;margin-top:8px`}>
+          <p style={`color:${dim};font-size:15px;line-height:1.8;margin:0`}>Keep going, Logesh. Every problem solved, every day of German, every commit — it compounds. <span style={`color:${green};font-weight:600`}>One prep. Three exits. Take whichever opens first.</span></p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Footer ── -->
+    <div style={`border-top:1px solid ${border};padding:16px 24px;text-align:center`}>
+      <div style={`color:${muted};font-size:12px;letter-spacing:2px`}>LOGESH PALANI · MICROSOFT MVP · 2026</div>
+      <div style="margin-top:6px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+        {[
+          { label: "Track 1", name: "ThoughtWorks",    color: green  },
+          { label: "Track 2", name: "Microsoft Azure", color: blue   },
+          { label: "Track 3", name: "Germany",         color: yellow },
+        ].map(t => (
+          <span style="font-size:12px">
+            <span style={`color:${muted}`}>{t.label}: </span>
+            <span style={`color:${t.color}`}>{t.name}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</Layout>
+
+<script>
+  // ── Tab switching ─────────────────────────────────────────────────────────
+  const GREEN = '#00FFA3';
+  const MUTED = '#5B6B7D';
+  const tabBtns = document.querySelectorAll<HTMLButtonElement>('.tab-btn');
+  const panels  = document.querySelectorAll<HTMLElement>('.tab-panel');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab!;
+      tabBtns.forEach(b => {
+        b.style.color        = MUTED;
+        b.style.borderBottom = '2px solid transparent';
+        b.style.fontWeight   = '400';
+      });
+      btn.style.color        = GREEN;
+      btn.style.borderBottom = `2px solid ${GREEN}`;
+      btn.style.fontWeight   = '600';
+      panels.forEach(p => (p.style.display = p.dataset.panel === target ? '' : 'none'));
+    });
+  });
+
+  // ── Progress counters ─────────────────────────────────────────────────────
+  const state: Record<string, number> = {};
+
+  function refreshCounter(id: string) {
+    const valEl = document.querySelector<HTMLElement>(`.counter-val[data-id="${id}"]`)!;
+    const max   = parseInt(valEl.dataset.max!);
+    const val   = state[id] ?? 0;
+    const pct   = Math.round((val / max) * 100);
+    valEl.textContent = String(val);
+    (document.querySelector<HTMLElement>(`.counter-bar[data-id="${id}"]`))!.style.width = `${Math.min(pct, 100)}%`;
+    (document.querySelector<HTMLElement>(`.counter-pct[data-id="${id}"]`))!.textContent = `${pct}% done`;
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.counter-inc').forEach(btn => {
+    const id  = btn.dataset.id!;
+    const max = parseInt(btn.dataset.max!);
+    state[id] ??= 0;
+    btn.addEventListener('click', () => { state[id] = Math.min(state[id] + 1, max); refreshCounter(id); });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.counter-dec').forEach(btn => {
+    const id = btn.dataset.id!;
+    btn.addEventListener('click', () => { state[id] = Math.max((state[id] ?? 0) - 1, 0); refreshCounter(id); });
+  });
+
+  // ── Milestone checkboxes ──────────────────────────────────────────────────
+  document.querySelectorAll<HTMLInputElement>('.milestone-cb').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const span = cb.closest('label')!.querySelector('span') as HTMLElement;
+      span.style.textDecoration = cb.checked ? 'line-through' : 'none';
+      span.style.opacity        = cb.checked ? '0.4' : '1';
+    });
+  });
+</script>
